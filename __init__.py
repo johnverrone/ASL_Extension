@@ -1,6 +1,6 @@
 # All Viewer plugins must inherit from the ViewerPlugin
 from calibre.customize import ViewerPlugin
-from PyQt5.Qt import QPushButton, QMessageBox
+from PyQt5.Qt import QAction, QIcon, QLabel, QPushButton, QMessageBox, QVBoxLayout
 
 
 class ASLExtension(ViewerPlugin):
@@ -17,7 +17,13 @@ class ASLExtension(ViewerPlugin):
 
 
     def customize_ui(self, ui):
-        print(ui.tool_bar2)
+        ac = QAction(QIcon(I('rating.png')), 'ASL Plugin', ui)
+        ac.setObjectName('asl_popup')
+        ui.tool_bar.addAction(ac)
 
     def customize_context_menu(self, menu, event, hit_test_result):
-        print(hit_test_result.isContentSelected())
+        print(hit_test_result)
+
+
+    def popup(self):
+        print('clicked!')
