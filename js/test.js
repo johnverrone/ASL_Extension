@@ -32,7 +32,7 @@ function addVideoFrame()
     $("head").append("<style>" + style_css + "</style>");
 
     var frame_html = "<div id = 'video_frame' class = 'SSvideo no_display'> \
-        <h2 id = 'frame_title' style = 'color: white'></h2> \
+        <h3 id = 'frame_title' style = 'color: white; padding: none;'></h3> \
         <iframe src= 'www.cnn.com' width = 350px  height = 350px style ='display: block; margin: auto'> </iframe> \
         </div>";
     $("body").append(frame_html);
