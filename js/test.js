@@ -15,6 +15,29 @@ function textSelected()
         $("#frame_title").text(text);
     }
 }
+
+function sendDatabaseQuery(selected_text)
+{
+    $.ajax({
+    url: "http://smartsign.imtc.gatech.edu/videos",
+    type: "GET",
+    data: {keywords: selected_text, callback:'cb'},
+    dataType: 'jsonp',
+    success: function(response) {
+        var video_id = response[0].id;
+        var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
+        $('iframe').attr('src', video_url);
+        $('#video_frame').removeClass("no_display");
+
+        console.log(video_id);
+    },
+    error: function(error) {
+        console.log(error);
+    }
+});
+
+--
+}
 function addVideoFrame()
 {
     var style_css = "\
@@ -33,7 +56,7 @@ function addVideoFrame()
 
     var frame_html = "<div id = 'video_frame' class = 'SSvideo no_display'> \
         <h3 id = 'frame_title' style = 'color: white; padding: none;'></h3> \
-        <iframe src= 'www.cnn.com' width = 350px  height = 350px style ='display: block; margin: auto'> </iframe> \
+        <iframe src= 'http://www.youtube.com/v/DFl9o-e05is?autoplay=1' width = 350px  height = 350px style ='display: block; margin: auto'> </iframe> \
         </div>";
     $("body").append(frame_html);
 }
