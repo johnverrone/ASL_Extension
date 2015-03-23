@@ -1,6 +1,9 @@
 $(document).ready(function() {
     addVideoFrame();
     $("p").mouseup(textSelected);
+    $("#video_frame").click(function(){
+        $(this).addClass("no_display");
+    });
 });
 
 /**
@@ -36,7 +39,6 @@ function sendDatabaseQuery(selected_text)
     }
 });
 
---
 }
 function addVideoFrame()
 {
@@ -55,7 +57,7 @@ function addVideoFrame()
     $("head").append("<style>" + style_css + "</style>");
 
     var frame_html = "<div id = 'video_frame' class = 'SSvideo no_display'> \
-        <h3 id = 'frame_title' style = 'color: white; padding: none;'></h3> \
+        <h3 id = 'frame_title' style = 'color: white;'></h3> \
         <iframe src= 'http://www.youtube.com/v/DFl9o-e05is?autoplay=1' width = 350px  height = 350px style ='display: block; margin: auto'> </iframe> \
         </div>";
     $("body").append(frame_html);
