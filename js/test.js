@@ -1,18 +1,41 @@
 $(document).ready(function() {
-    $("p").mouseup(function(){
-        var text = getSelectedText();
-        if (text)
-        {
-            alert(text);
-        }
-    });
-    //splitWords($("p:first"));
+    addVideoFrame();
+    $("p").mouseup(textSelected);
 });
 
-
-function displayVideoFrame()
+/**
+ * Full text selection functionality
+ */
+function textSelected()
 {
-    var frame_html = "<iframe src = 'http://youtube.com' width = '350px' height = '350px'></iframe>"
+    var text = getSelectedText();
+    if(text)
+    {
+        $("#video_frame").removeClass("no_display");
+        $("#frame_title").text(text);
+    }
+}
+function addVideoFrame()
+{
+    var style_css = "\
+    .no_display { \
+        display : none; \
+    } \
+    \
+    .SSvideo { \
+        z-index: 1; \
+        padding: 5px; \
+        background-color: black; \
+        position: fixed; \
+        top: 0%; \
+    }";
+    $("head").append("<style>" + style_css + "</style>");
+
+    var frame_html = "<div id = 'video_frame' class = 'SSvideo no_display'> \
+        <h2 id = 'frame_title' style = 'color: white'></h2> \
+        <iframe src= 'www.cnn.com' width = 350px  height = 350px style ='display: block; margin: auto'> </iframe> \
+        </div>";
+    $("body").append(frame_html);
 }
 
 function getSelectedText()
