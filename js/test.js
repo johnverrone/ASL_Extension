@@ -1,7 +1,29 @@
 $(document).ready(function() {
-    splitWords($("p:first"));
+    $("p").mouseup(function(){
+        var text = getSelectedText();
+        if (text)
+        {
+            alert(text);
+        }
+    });
+    //splitWords($("p:first"));
 });
 
+
+function displayVideoFrame()
+{
+    var frame_html = "<iframe src = 'http://youtube.com' width = '350px' height = '350px'></iframe>"
+}
+
+function getSelectedText()
+{
+    var text = "";
+    if(window.getSelection)
+    {
+        text = window.getSelection().toString();
+    }
+    return text;
+}
 /**
  * This function splits the words given into different span elements so that they can each be given a hover handler later
  * @param words - JQuery <p> object of words to split
