@@ -1,0 +1,79 @@
+<html>
+<head>
+    <title>Video Player</title>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+//            $('#keyword').keydown(function(event){
+//                if(event.keyCode==13){
+//                    $('#request').trigger('click');
+//                }
+//            });
+//
+//            $('#request').click(function() {
+//                var keyword = $('#keyword').val();
+//                $.ajax({
+//                    url: "http://smartsign.imtc.gatech.edu/videos",
+//                    type: "GET",
+//                    data: {keywords:keyword, callback:'cb'},
+//                    dataType: 'jsonp',
+//                    success: function(response) {
+//                        var video_id = response[0].id;
+//                        var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
+//                        $('iframe').attr('src', video_url);
+//
+//                        console.log(video_id);
+//                    },
+//                    error: function(error) {
+//                        console.log(error);
+//                    }
+//                });
+//            });
+            
+            var keyword = getParameterByName('keyword');
+            console.log(keyword);
+            $.ajax({
+                url: "http://smartsign.imtc.gatech.edu/videos",
+                type: "GET",
+                data: {keywords:keyword, callback:'cb'},
+                dataType: 'jsonp',
+                success: function(response) {
+                    var video_id = response[0].id;
+                    var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
+                    $('iframe').attr('src', video_url);
+
+                    console.log(video_id);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!--
+    <input type="text" placeholder="keyword" id="keyword">
+    <button id="request">Load</button>
+-->
+    <br/>
+    <iframe width="840" height="630" src="">
+
+    </iframe>
+</body>
+</html>
