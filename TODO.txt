@@ -9,6 +9,8 @@ Python Source:
 Launcher.html
 -Contains var keyword
 -Call javascript to open up the video pop up page with query = keyword and then close itself.
+	***Use this code***: 
+	window.open('ASLVideo.html?keyword='+keyword, '_self').close();
 
 ASLVideo.html
 -Get query word using index.html functionality
