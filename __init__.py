@@ -28,7 +28,18 @@ class ASLExtension(ViewerPlugin):
         menu.addAction(QIcon(I('rating.png')), _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
         
     def show_asl(self, text):
-        webbrowser.open_new('localhost:8080/?keyword=' + text)
+        with open('Launcher.html', 'w') as f:
+            html_lines = f.read()
+            
+            #now that we have read in the file, do regex replacement to replace "var keyword = whatever" with the selected text, so we get "var keyword = text"
+            import re
+            html_lines = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines)
+            #write the new html file with keyword replaced back to the file
+            f.seek(0)
+            f.write(html_lines)
+            f.truncate()
+            
+        webbrowser.open_new('Launcher.html')
         
     #def load_javascript(self, evaljs):
         #pass
