@@ -31,10 +31,10 @@ class ASLExtension(ViewerPlugin):
         with open('Launcher.html', 'w') as f:
             html_lines = f.read()
             
-            #now that we have read in the file, do regex replacement to replace "var keyword = whatever" with the selected text, so we get "var keyword = text"
+            #now that we have read in the file, do regex replacement to replace "var keyword = whatever" with the selected text, so we get "var keyword = 'text'"
             import re
             html_lines = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines)
-            #write the new html file with keyword replaced back to the file
+            #write the new html with keyword replaced back to the file
             f.seek(0)
             f.write(html_lines)
             f.truncate()
