@@ -15,4 +15,7 @@ Launcher.html
 ASLVideo.html
 -Get query word using index.html functionality
 	-If no query, display No Video Found and then close self after 3 seconds
+	***Use this code***:
+	setTimeout(function(){close(), 3000});
+	
 	-Otherwise, display the video received from Youtube with the keyword 
