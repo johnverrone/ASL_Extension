@@ -1,6 +1,6 @@
 # All Viewer plugins must inherit from the ViewerPlugin
 from calibre.customize import ViewerPlugin
-from PyQt5.Qt import *
+from PyQt5.Qt import QAction, QIcon
 from functools import partial
 import webbrowser
 
@@ -18,17 +18,19 @@ class ASLExtension(ViewerPlugin):
 
 
     def customize_ui(self, ui):
-        ac = QAction(QIcon(I('rating.png')), 'ASL Plugin', ui)
+        ac = QAction(QIcon(I('rating.png')), 'ASL Plugin Settings', ui)
         ac.setObjectName('asl_popup')
         ui.tool_bar.addAction(ac)
 
     def customize_context_menu(self, menu, event, hit_test_result):
         webPage = hit_test_result.frame().page()
         selectedText = webPage.selectedText()
+        selectedText = selectedText.replace('"', '')        #for security concerns, get rid of quotes
+        
         menu.addAction(QIcon(I('rating.png')), _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
         
     def show_asl(self, text):
-        with open('Launcher.html', 'w') as f:
+        with open('Launcher.html', 'r+') as f:
             html_lines = f.read()
             
             #now that we have read in the file, do regex replacement to replace "var keyword = whatever" with the selected text, so we get "var keyword = 'text'"
