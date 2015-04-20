@@ -28,8 +28,9 @@ class ASLExtension(ViewerPlugin):
         selectedText = webPage.selectedText()
         selectedText = selectedText.replace('"', '')        #for security concerns, get rid of quotes
         
-        menu.addAction(QIcon(I('rating.png')), _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
-        
+        icon = get_icons("images/PlayVideo.png")
+        menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
+
     def show_asl(self, text):
         with open('Launcher.html', 'r+') as f:
             html_lines = f.read()
