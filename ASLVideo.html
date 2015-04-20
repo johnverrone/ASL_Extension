@@ -40,13 +40,21 @@
                 data: {keywords:keyword, callback:'cb'},
                 dataType: 'jsonp',
                 success: function(response) {
-                    var video_id = response[0].id;
-                    var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
-                    $('iframe').attr('src', video_url);
-                    
-                    var width_v = "400";
-                    var height_v = "400";
-                    $('iframe').attr({width: width_v , height: height_v});
+                	if(response[0] != null)
+                		{
+		                    var video_id = response[0].id;
+		                    var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
+		                    $('iframe').attr('src', video_url);
+		                    
+		                    var width_v = "400";
+		                    var height_v = "400";
+		                    $('iframe').attr({width: width_v , height: height_v});
+                		}
+                	else
+                		{
+                			$("body").html("<h1>Video Could Not Be Displayed For: " + keyword + "</h1>");
+                			setTimeout(function(){window.close();}, 3000);
+                		}
 
                     console.log(video_id);
                 },
