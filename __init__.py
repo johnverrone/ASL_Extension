@@ -18,6 +18,7 @@ class ASLExtension(ViewerPlugin):
 
 
     def customize_ui(self, ui):
+        icon = get_icons
         ac = QAction(QIcon(I('rating.png')), 'ASL Plugin Settings', ui)
         ac.setObjectName('asl_popup')
         ui.tool_bar.addAction(ac)
