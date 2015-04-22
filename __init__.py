@@ -1,6 +1,6 @@
 # All Viewer plugins must inherit from the ViewerPlugin
 from calibre.customize import ViewerPlugin
-from PyQt5.Qt import QAction, QIcon
+from PyQt5.Qt import QAction, QIcon, QWidget
 from functools import partial
 import webbrowser
 
@@ -45,6 +45,27 @@ class ASLExtension(ViewerPlugin):
             
         webbrowser.open_new('Launcher.html')
         
+    
+    """
+    Implement this method and save_settings() in your plugin to use a custom configuration dialog, 
+    rather then relying on the simple string based default customization.
+
+    This method, if implemented, must return a QWidget. The widget can have an optional method validate() that takes 
+    no arguments and is called immediately after the user clicks OK. Changes are applied if and only if the method returns True.
+
+    If for some reason you cannot perform the configuration at this time, return a tuple of two strings (message, details), 
+    these will be displayed as a warning dialog to the user and the process will be aborted. 
+    """
+    def config_widget(self):
+        
+        widget = QWidget()
+        return widget
+    """
+    Save the settings specified by the user with config_widget.
+
+    @param config_widget – The widget returned by config_widget().
+    """
+    def save_settings(self, config_widget):
     #def load_javascript(self, evaljs):
         #pass
 
