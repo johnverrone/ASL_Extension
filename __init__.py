@@ -4,6 +4,13 @@ from PyQt5.Qt import QAction, QIcon, QWidget
 from functools import partial
 import webbrowser
 
+###########DEBUGGING METHODS FOR WINDOWS##################
+import logging
+open("debug.log", "w").close()      #clear log file for a new run
+logging.basicConfig(filename = "debug.log", format='%(asctime)s: %(message)s', level = logging.DEBUG, datefmt = '%I:%M:%S %p')
+def d_print(msg):
+    logging.debug(msg)
+    
 class ASLExtension(ViewerPlugin):
 
     # This class is a wrapper that provides information about the actual plugin.
@@ -15,14 +22,22 @@ class ASLExtension(ViewerPlugin):
     author = 'Naveen Chandran, Ryan Swing, Scott Vermeyen, John Verrone'
     version = (1, 0, 0)
     minimum_calibre_version = (0, 7, 53)
-
-
+    
+    d_print("***NEW CALIBRE ASL PLUGIN INSTANCE SUCCESSFULLY STARTED***")
+        
     def customize_ui(self, ui):
         icon = get_icons("images/ASLSettingsIcon.png")
-        ac = QAction(icon, 'ASL Plugin Settings', ui)
-        ac.setObjectName('asl_popup')
-        ui.tool_bar.addAction(ac)
+        action = QAction(icon, 'ASL Plugin Settings', ui, triggered = self.preferences_clicked) #this icon calls preferences_clicked when it is "triggered" (clicked)
+        ui.tool_bar.addAction(action)
 
+    """
+    This method is called when the user clicks on the ASL Configuration icon.
+    It shows the widget returned by config_widget()
+    """
+    def preferences_clicked(self):
+        dialog = self.config_widget()
+        dialog.show()
+        
     def customize_context_menu(self, menu, event, hit_test_result):
         webPage = hit_test_result.frame().page()
         selectedText = webPage.selectedText()
@@ -57,18 +72,15 @@ class ASLExtension(ViewerPlugin):
     these will be displayed as a warning dialog to the user and the process will be aborted. 
     """
     def config_widget(self):
-        
+        #create widget and 
         widget = QWidget()
+        d_print("Widget created")
         return widget
+    
     """
     Save the settings specified by the user with config_widget.
-
     @param config_widget – The widget returned by config_widget().
     """
     def save_settings(self, config_widget):
-    #def load_javascript(self, evaljs):
-        #pass
-
-    #def run_javascript(self, evaljs):
-        #script = get_resources('js/test.js')
-        #evaljs(script)
+        pass
+  
