@@ -16,20 +16,23 @@ class ASLExtension(ViewerPlugin):
     version = (1, 0, 0)
     minimum_calibre_version = (0, 7, 53)
 
-
-    def customize_ui(self, ui):
-        icon = get_icons("images/ASLSettingsIcon.png")
-        ac = QAction(icon, 'ASL Plugin Settings', ui)
-        ac.setObjectName('asl_popup')
-        ui.tool_bar.addAction(ac)
+    """
+    This method can be implemented when settings functionality is implemented
+    """
+#     def customize_ui(self, ui):
+#         icon = get_icons("images/ASLSettingsIcon.png")
+#         ac = QAction(icon, 'ASL Plugin Settings', ui)
+#         ac.setObjectName('asl_popup')
+#         ui.tool_bar.addAction(ac)
 
     def customize_context_menu(self, menu, event, hit_test_result):
         webPage = hit_test_result.frame().page()
         selectedText = webPage.selectedText()
-        selectedText = selectedText.replace('"', '')        #for security concerns, get rid of quotes
         
-        icon = get_icons("images/PlayVideo.png")
-        menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
+        if selectedText:
+            selectedText = selectedText.replace('"', '')        #for security concerns, get rid of quotes
+            icon = get_icons("images/PlayVideo.png")
+            menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
 
     def show_asl(self, text):
         with open('Launcher.html', 'r+') as f:
