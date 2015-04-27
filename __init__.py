@@ -4,12 +4,12 @@ from PyQt5.Qt import QAction, QIcon
 from functools import partial
 import webbrowser
 
-###########DEBUGGING METHODS FOR WINDOWS##################
-import logging
-open("debug.log", "w").close()      #clear log file for a new run
-logging.basicConfig(filename = "debug.log", format='%(asctime)s: %(message)s', level = logging.DEBUG, datefmt = '%I:%M:%S %p')
-def d_print(msg):
-    logging.debug(msg)
+# ###########DEBUGGING METHODS FOR WINDOWS##################
+# import logging
+# open("debug.log", "w").close()      #clear log file for a new run
+# logging.basicConfig(filename = "debug.log", format='%(asctime)s: %(message)s', level = logging.DEBUG, datefmt = '%I:%M:%S %p')
+# def d_print(msg):
+#     logging.debug(msg)
     
 class ASLExtension(ViewerPlugin):
 
