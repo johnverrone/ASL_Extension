@@ -6,32 +6,6 @@
     <script>
         $(document).ready(function() {
 
-//            $('#keyword').keydown(function(event){
-//                if(event.keyCode==13){
-//                    $('#request').trigger('click');
-//                }
-//            });
-//
-//            $('#request').click(function() {
-//                var keyword = $('#keyword').val();
-//                $.ajax({
-//                    url: "http://smartsign.imtc.gatech.edu/videos",
-//                    type: "GET",
-//                    data: {keywords:keyword, callback:'cb'},
-//                    dataType: 'jsonp',
-//                    success: function(response) {
-//                        var video_id = response[0].id;
-//                        var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
-//                        $('iframe').attr('src', video_url);
-//
-//                        console.log(video_id);
-//                    },
-//                    error: function(error) {
-//                        console.log(error);
-//                    }
-//                });
-//            });
-
             var keyword = getParameterByName('keyword');
             console.log(keyword);
             $.ajax({
@@ -71,17 +45,16 @@
     <style>
         body {
             text-align: center;
+            background-color: gray;
+        }
+        
+        h3 {
+        	color: rgb(8, 255, 0);
         }
     </style>
 </head>
-<body style = "background-color: gray">
-<!--
-    <input type="text" placeholder="keyword" id="keyword">
-    <button id="request">Load</button>
--->
-    <br/>
+<body>
     <div class="iframe_container">
-
     </div>
 </body>
 </html>
