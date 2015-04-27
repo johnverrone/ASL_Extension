@@ -31,7 +31,7 @@
 //                    }
 //                });
 //            });
-            
+
             var keyword = getParameterByName('keyword');
             console.log(keyword);
             $.ajax({
@@ -40,30 +40,25 @@
                 data: {keywords:keyword, callback:'cb'},
                 dataType: 'jsonp',
                 success: function(response) {
-                	if(response[0] != null)
-                		{
-		                    var video_id = response[0].id;
-		                    var video_url = "http://www.youtube.com/v/" + video_id + "?autoplay=1";
-		                    $('iframe').attr('src', video_url);
-		                    
-		                    var width_v = "400";
-		                    var height_v = "400";
-		                    $('iframe').attr({width: width_v , height: height_v});
-                		}
-                	else
-                		{
-                			$("body").html("<h1>Video Could Not Be Displayed For: " + keyword + "</h1>");
-                			setTimeout(function(){window.close();}, 3000);
-                		}
-
-                    console.log(video_id);
+                    var responses = [{}];
+                    response.forEach(function(val, index, arr) {
+                        if (val != null) {
+                            responses.push({
+                                video_id: val.id,
+                                video_url: "http://www.youtube.com/v/" + val.id + "?autoplay=0",
+                                title: val.title,
+                            });
+                            $(".iframe_container").append("<h3>"+val.title+"</h3><iframe width='400' height='400' src='http://www.youtube.com/v/"+ val.id + "?autoplay=0&rel=0'></iframe><br/>");
+                        }
+                    });
+                    console.log(responses);
                 },
                 error: function(error) {
                     console.log(error);
                 }
             });
-            
-            
+
+
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
                 var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -85,8 +80,8 @@
     <button id="request">Load</button>
 -->
     <br/>
-    <iframe width="840" height="630" src="">
+    <div class="iframe_container">
 
-    </iframe>
+    </div>
 </body>
 </html>
