@@ -4,6 +4,13 @@ from PyQt5.Qt import QAction, QIcon
 from functools import partial
 import webbrowser
 
+###########DEBUGGING METHODS FOR WINDOWS##################
+import logging
+open("debug.log", "w").close()      #clear log file for a new run
+logging.basicConfig(filename = "debug.log", format='%(asctime)s: %(message)s', level = logging.DEBUG, datefmt = '%I:%M:%S %p')
+def d_print(msg):
+    logging.debug(msg)
+    
 class ASLExtension(ViewerPlugin):
 
     # This class is a wrapper that provides information about the actual plugin.
@@ -35,8 +42,7 @@ class ASLExtension(ViewerPlugin):
             menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
 
     def show_asl(self, text):
-        import re
-        import tempfile, os
+        import re, tempfile, os
         
         html_lines_l = get_resources("Launcher.html")       #read in Launcher.html lines
         html_lines_a = get_resources("ASLVideo.html")       #read in ASLVideo.html lines
@@ -46,7 +52,7 @@ class ASLExtension(ViewerPlugin):
         
         #Launcher.html injection
         html_lines_l = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines_l)          #Inject keyword into Launcher.html
-        html_lines_l = re.sub(r'var name =.*;','var name = "%s";' % asl_temp_name , html_lines_l)    #Inject ASLVideo.html temporary file name into Launcher.html
+        html_lines_l = re.sub(r'var name_asl =.*;', 'var name_asl = "%s";' % os.path.basename(asl_temp_name) , html_lines_l)    #Inject ASLVideo.html temporary file name into Launcher.html
 
         with open(launcher_temp_name, "w+") as temp_file:       #create Launcher.html temporary file
             temp_file.write(html_lines_l)
@@ -55,7 +61,9 @@ class ASLExtension(ViewerPlugin):
             temp_file2.write(html_lines_a)
         
         webbrowser.open_new(launcher_temp_name)
-            
+        
+        
+        
       
         
     #def load_javascript(self, evaljs):
