@@ -24,7 +24,7 @@ class ASLExtension(ViewerPlugin):
 #         ac = QAction(icon, 'ASL Plugin Settings', ui)
 #         ac.setObjectName('asl_popup')
 #         ui.tool_bar.addAction(ac)
-
+#
     def customize_context_menu(self, menu, event, hit_test_result):
         webPage = hit_test_result.frame().page()
         selectedText = webPage.selectedText()
