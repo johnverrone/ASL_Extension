@@ -1,5 +1,6 @@
 # All Viewer plugins must inherit from the ViewerPlugin
 from calibre.customize import ViewerPlugin
+from calibre.ptempfile import PersistentTemporaryFile
 from PyQt5.Qt import QAction, QIcon
 from functools import partial
 import webbrowser
@@ -42,25 +43,25 @@ class ASLExtension(ViewerPlugin):
             menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
 
     def show_asl(self, text):
-        import re, tempfile, os
+        import re, os
         
         html_lines_l = get_resources("Launcher.html")       #read in Launcher.html lines
         html_lines_a = get_resources("ASLVideo.html")       #read in ASLVideo.html lines
         
-        _launcher, launcher_temp_name = tempfile.mkstemp(suffix = ".html")
-        _asl, asl_temp_name = tempfile.mkstemp(suffix = ".html")
+        launcher_temp = PersistentTemporaryFile(suffix = ".html")
+        asl_temp = PersistentTemporaryFile(suffix = ".html")
         
         #Launcher.html injection
         html_lines_l = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines_l)          #Inject keyword into Launcher.html
-        html_lines_l = re.sub(r'var name_asl =.*;', 'var name_asl = "%s";' % os.path.basename(asl_temp_name) , html_lines_l)    #Inject ASLVideo.html temporary file name into Launcher.html
+        html_lines_l = re.sub(r'var name_asl =.*;', 'var name_asl = "%s";' % os.path.basename(asl_temp.name) , html_lines_l)    #Inject ASLVideo.html temporary file name into Launcher.html
 
-        with open(launcher_temp_name, "w+") as temp_file:       #create Launcher.html temporary file
+        with launcher_temp as temp_file:       #create Launcher.html temporary file
             temp_file.write(html_lines_l)
 
-        with open(asl_temp_name, "w+") as temp_file2:           #create ASLVideo.html temporary file
+        with asl_temp as temp_file2:           #create ASLVideo.html temporary file
             temp_file2.write(html_lines_a)
         
-        webbrowser.open_new(launcher_temp_name)
+        webbrowser.open_new(launcher_temp.name)
         
         
         
