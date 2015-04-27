@@ -35,15 +35,28 @@ class ASLExtension(ViewerPlugin):
             menu.addAction(icon, _("Show ASL video for '%s'") % selectedText, partial(self.show_asl, selectedText))
 
     def show_asl(self, text):
-        html_lines = get_resources("Launcher.html")
-        with open('Launcher.html', 'w+') as f:            
-            #now that we have read in the file, do regex replacement to replace "var keyword = whatever" with the selected text, so we get "var keyword = 'text'"
-            import re
-            html_lines = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines)
-            #write the new html with keyword replaced back to the file
-            f.write(html_lines)
+        import re
+        import tempfile, os
+        
+        html_lines_l = get_resources("Launcher.html")       #read in Launcher.html lines
+        html_lines_a = get_resources("ASLVideo.html")       #read in ASLVideo.html lines
+        
+        _launcher, launcher_temp_name = tempfile.mkstemp(suffix = ".html")
+        _asl, asl_temp_name = tempfile.mkstemp(suffix = ".html")
+        
+        #Launcher.html injection
+        html_lines_l = re.sub(r'var keyword =.*;','var keyword = "%s";' % text , html_lines_l)          #Inject keyword into Launcher.html
+        html_lines_l = re.sub(r'var name =.*;','var name = "%s";' % asl_temp_name , html_lines_l)    #Inject ASLVideo.html temporary file name into Launcher.html
+
+        with open(launcher_temp_name, "w+") as temp_file:       #create Launcher.html temporary file
+            temp_file.write(html_lines_l)
+
+        with open(asl_temp_name, "w+") as temp_file2:           #create ASLVideo.html temporary file
+            temp_file2.write(html_lines_a)
+        
+        webbrowser.open_new(launcher_temp_name)
             
-        webbrowser.open_new('Launcher.html')
+      
         
     #def load_javascript(self, evaljs):
         #pass
